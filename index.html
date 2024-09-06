@@ -32,53 +32,75 @@
     }
 
     .login-container {
-      background-color: rgba(255, 255, 255, 0.85);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
       text-align: center;
-      width: 350px;
+      width: 400px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .login-container h2 {
-      margin-bottom: 20px;
-      color: #333;
+      margin-bottom: 25px;
+      color: #2c3e50;
+      font-size: 24px;
     }
 
     .login-container input {
-      margin: 10px 0;
-      padding: 10px;
+      margin: 12px 0;
+      padding: 12px;
       width: 100%;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
 
     .login-container button {
-      padding: 12px;
-      background-color: #28a745;
+      padding: 14px;
+      background-color: #2980b9;
       color: white;
       border: none;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .login-container button:hover {
-      background-color: #218838;
+      background-color: #2573a6;
     }
 
-    .login-container p {
+    .message {
       margin-top: 15px;
-      color: red;
+      font-size: 16px;
       display: none;
+      border-radius: 5px;
+      padding: 10px;
     }
 
     .success-message {
-      color: green;
-      font-weight: bold;
+      color: #27ae60;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
     }
   </style>
 </head>
@@ -88,23 +110,18 @@
     <input type="text" id="userId" placeholder="User ID">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
-    <p id="error-message">Oops! The credentials you entered don't seem right. Try again?</p>
-    <p id="success-message" class="success-message">Login successful! Redirecting...</p>
+    <p id="error-message" class="message error-message">Oops! The credentials you entered don't seem right. Try again?</p>
+    <p id="success-message" class="message success-message">Login successful! Redirecting...</p>
   </div>
 
   <script>
     // Hardcoded user ID
     const USER_ID = "MSB1234";
 
-    // Hashed and obfuscated password
-    const HASH_PART_1 = "a94a8fe5";
-    const HASH_PART_2 = "ccb19ba61";
-    const HASH_PART_3 = "c4b2a61d";
+    // Correct SHA-256 hash of the password 'DS7692'
+    const HASHED_PASSWORD = "80f2383ca3502d91a9b307d94baeedc6c0f0c921ad98c4fc378281a1c5440185"; 
 
-    // Complete hashed password
-    const HASHED_PASSWORD = HASH_PART_1 + HASH_PART_2 + HASH_PART_3;
-
-    // SHA-256 hashing function (using crypto API)
+    // Function to hash password (SHA-256)
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password);
@@ -121,20 +138,22 @@
       // Hash the entered password
       const hashedEnteredPassword = await hashPassword(enteredPassword);
 
-      // Check if user ID and hashed password match
+      // Compare entered credentials with stored credentials
       if (enteredUserId === USER_ID && hashedEnteredPassword === HASHED_PASSWORD) {
         // Store login state
         document.cookie = "loggedIn=true; max-age=" + 24 * 60 * 60; // 1 day
         localStorage.setItem('loggedIn', 'true');
 
-        // Show success message and redirect after a delay
+        // Show success message and redirect after a short delay
         document.getElementById("success-message").style.display = "block";
+        document.getElementById("error-message").style.display = "none";
         setTimeout(() => {
           window.location.href = "https://theapexclasses.blogspot.com/";
-        }, 2000);
+        }, 1000); // Shorter delay for quicker redirect
       } else {
         // Show error message
         document.getElementById("error-message").style.display = "block";
+        document.getElementById("success-message").style.display = "none";
       }
     }
   </script>
