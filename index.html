@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secure Login</title>
   <style>
-    /* Basic resets */
     * {
       margin: 0;
       padding: 0;
@@ -32,75 +31,53 @@
     }
 
     .login-container {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       text-align: center;
-      width: 400px;
-      animation: fadeIn 1s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      width: 350px;
     }
 
     .login-container h2 {
-      margin-bottom: 25px;
-      color: #2c3e50;
-      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     .login-container input {
-      margin: 12px 0;
-      padding: 12px;
+      margin: 10px 0;
+      padding: 10px;
       width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .login-container button {
-      padding: 14px;
-      background-color: #2980b9;
+      padding: 12px;
+      background-color: #28a745;
       color: white;
       border: none;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .login-container button:hover {
-      background-color: #2573a6;
+      background-color: #218838;
     }
 
-    .message {
+    .login-container p {
       margin-top: 15px;
-      font-size: 16px;
+      color: red;
       display: none;
-      border-radius: 5px;
-      padding: 10px;
     }
 
     .success-message {
-      color: #27ae60;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-    }
-
-    .error-message {
-      color: #e74c3c;
-      background-color: #f8d7da;
-      border: 1px solid #f5c6cb;
+      color: green;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -110,8 +87,8 @@
     <input type="text" id="userId" placeholder="User ID">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
-    <p id="error-message" class="message error-message">Oops! The credentials you entered don't seem right. Try again?</p>
-    <p id="success-message" class="message success-message">Login successful! Redirecting...</p>
+    <p id="error-message">Oops! The credentials you entered don't seem right. Try again?</p>
+    <p id="success-message" class="success-message">Login successful! Redirecting...</p>
   </div>
 
   <script>
@@ -119,9 +96,8 @@
     const USER_ID = "MSB1234";
 
     // Correct SHA-256 hash of the password 'DS7692'
-    const HASHED_PASSWORD = "80f2383ca3502d91a9b307d94baeedc6c0f0c921ad98c4fc378281a1c5440185"; 
+    const HASHED_PASSWORD = "80f2383ca3502d91a9b307d94baeedc6c0f0c921ad98c4fc378281a1c5440185";
 
-    // Function to hash password (SHA-256)
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password);
@@ -134,28 +110,27 @@
     async function login() {
       const enteredUserId = document.getElementById("userId").value;
       const enteredPassword = document.getElementById("password").value;
-
-      // Hash the entered password
       const hashedEnteredPassword = await hashPassword(enteredPassword);
 
-      // Compare entered credentials with stored credentials
       if (enteredUserId === USER_ID && hashedEnteredPassword === HASHED_PASSWORD) {
-        // Store login state
-        document.cookie = "loggedIn=true; max-age=" + 24 * 60 * 60; // 1 day
+        document.cookie = "loggedIn=true; path=/; max-age=" + 24 * 60 * 60; // 1 day
         localStorage.setItem('loggedIn', 'true');
-
-        // Show success message and redirect after a short delay
         document.getElementById("success-message").style.display = "block";
-        document.getElementById("error-message").style.display = "none";
         setTimeout(() => {
           window.location.href = "https://theapexclasses.blogspot.com/";
-        }, 1000); // Shorter delay for quicker redirect
+        }, 2000);
       } else {
-        // Show error message
         document.getElementById("error-message").style.display = "block";
-        document.getElementById("success-message").style.display = "none";
       }
     }
+
+    function checkLogin() {
+      if (document.cookie.includes("loggedIn=true") || localStorage.getItem('loggedIn') === 'true') {
+        window.location.href = "https://theapexclasses.blogspot.com/";
+      }
+    }
+
+    checkLogin();
   </script>
 </body>
 </html>
