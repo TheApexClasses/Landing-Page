@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Secure Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,10 +47,13 @@
             background: #218838;
         }
         .message {
-            color: red;
             margin-top: 10px;
+            display: none;
         }
-        .success-message {
+        .error {
+            color: red;
+        }
+        .success {
             color: green;
             font-weight: bold;
         }
@@ -62,8 +65,8 @@
         <input type="text" id="userId" placeholder="User ID">
         <input type="password" id="password" placeholder="Password">
         <button onclick="login()">Login</button>
-        <p id="error-message" class="message">Invalid Username or Password</p>
-        <p id="success-message" class="success-message">Login successful! Redirecting...</p>
+        <p id="error-message" class="message error">Invalid Username or Password</p>
+        <p id="success-message" class="message success">Login successful! Redirecting...</p>
     </div>
 
     <script>
@@ -83,7 +86,13 @@
         async function login() {
             const enteredUserId = document.getElementById("userId").value;
             const enteredPassword = document.getElementById("password").value;
+
+            // Hash the entered password
             const hashedEnteredPassword = await hashPassword(enteredPassword);
+
+            // Clear any previous messages
+            document.getElementById("error-message").style.display = "none";
+            document.getElementById("success-message").style.display = "none";
 
             if (enteredUserId === USER_ID && hashedEnteredPassword === HASHED_PASSWORD) {
                 localStorage.setItem('loggedIn', 'true');
