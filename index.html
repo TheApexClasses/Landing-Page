@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Login</title>
+  <style>
+    /* Basic resets */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(130deg, #1f4037, #99f2c8);
+      animation: gradientShift 10s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background: linear-gradient(130deg, #1f4037, #99f2c8);
+      }
+      100% {
+        background: linear-gradient(130deg, #16222a, #3a6073);
+      }
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-container input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container button {
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+    }
+
+    .login-container button:hover {
+      background-color: #218838;
+    }
+
+    .login-container p {
+      margin-top: 15px;
+      color: red;
+      display: none;
+    }
+
+    .success-message {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Secure Login</h2>
+    <input type="text" id="userId" placeholder="User ID">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="error-message">Oops! The credentials you entered don't seem right. Try again?</p>
+    <p id="success-message" class="success-message">Login successful! Redirecting...</p>
+  </div>
+
+  <script>
+    // Hardcoded user ID
+    const USER_ID = "MSB1234";
+
+    // Hashed and obfuscated password
+    const HASH_PART_1 = "a94a8fe5";
+    const HASH_PART_2 = "ccb19ba61";
+    const HASH_PART_3 = "c4b2a61d";
+
+    // Complete hashed password
+    const HASHED_PASSWORD = HASH_PART_1 + HASH_PART_2 + HASH_PART_3;
+
+    // SHA-256 hashing function (using crypto API)
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    async function login() {
+      const enteredUserId = document.getElementById("userId").value;
+      const enteredPassword = document.getElementById("password").value;
+
+      // Hash the entered password
+      const hashedEnteredPassword = await hashPassword(enteredPassword);
+
+      // Check if user ID and hashed password match
+      if (enteredUserId === USER_ID && hashedEnteredPassword === HASHED_PASSWORD) {
+        // Store login state
+        document.cookie = "loggedIn=true; max-age=" + 24 * 60 * 60; // 1 day
+        localStorage.setItem('loggedIn', 'true');
+
+        // Show success message and redirect after a delay
+        document.getElementById("success-message").style.display = "block";
+        setTimeout(() => {
+          window.location.href = "https://theapexclasses.blogspot.com/";
+        }, 2000);
+      } else {
+        // Show error message
+        document.getElementById("error-message").style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
