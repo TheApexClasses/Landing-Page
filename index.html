@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Server Message</title>
+  <title>Landing Page - The Apex Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* General Reset */
     * {
       margin: 0;
       padding: 0;
@@ -13,31 +13,279 @@
     }
 
     body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: black;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    .welcome-container {
+      position: relative;
+      text-align: left;
+      padding: 30px 20px 0;
+    }
+
+    .typing-text {
+      font-size: 3.2rem;
+      font-weight: 600;
+      color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 1.5s steps(20) 1s 1 normal both;
+    }
+
+    .sub-text {
+      font-size: 2.4rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 1.5s steps(20) 2.5s 1 normal both;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between; /* Added more spacing between buttons */
+      align-items: center;
+      width: 90%;
+      margin: 100px auto 20px;
+    }
+
+    .button {
+      padding: 12px 20px;
+      background-color: darkred;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      border-radius: 5px;
+      width: 48%;
+      text-align: center;
+      font-size: 1rem;
+      margin: 10px;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      background-color: #b30000;
+    }
+
+    .google-button, .explore-button {
+      padding: 14px 10px;
+      background-color: darkred; /* Restored red color for the Explore button */
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      width: 90%; /* Ensuring both buttons have the same width */
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+      border: 1px solid darkred;
+    }
+
+    .explore-button img {
+      margin-left: 10px;
+      height: 20px;
+    }
+
+    .google-button img {
+      margin-right: 10px;
+      height: 20px;
+    }
+
+    .google-button:hover, .explore-button:hover {
+      transform: scale(1.03);
+    }
+
+    .arrow {
+      font-size: 6rem;
+      color: white;
+      text-align: center;
+      margin-top: 40px;
+      animation: slideRight 1.5s ease-in-out infinite;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      width: 8rem;
+    }
+
+    @keyframes slideRight {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+      100% { transform: translateX(0); }
+    }
+
+    .footer {
+      text-align: center;
+      padding-bottom: 20px;
+      font-size: 1rem;
+      color: white;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f5f5f5; /* Off-white background */
-      font-family: 'Roboto', sans-serif; /* Clean, modern font */
+      gap: 20px;
     }
 
-    #message {
-      font-size: 2rem;
-      font-weight: 700; /* Bold text */
-      color: #000; /* Rich black color */
+    .footer a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      color: red;
+    }
+
+    /* Dropdown options for the Explore button */
+    .dropdown-options {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: -150px;
+      width: 70%;
+      background-color: white;
+      color: darkred;
+      border: 1px solid darkred;
+      border-radius: 5px;
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-options .dropdown-button {
+      background-color: white;
+      color: darkred;
+      padding: 10px 15px;
       text-align: center;
-      max-width: 600px;
-      line-height: 1.6;
+      border-bottom: 1px solid darkred;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
     }
 
-    /* Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+    .dropdown-options .dropdown-button:hover {
+      background-color: #b30000;
+      color: white;
+    }
+
+    .dropdown-options .dropdown-button:last-child {
+      border-bottom: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media screen and (max-width: 768px) {
+      .typing-text {
+        font-size: 2.8rem;
+      }
+
+      .sub-text {
+        font-size: 2rem;
+      }
+
+      .google-button, .explore-button {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .dropdown-options {
+        right: 0;
+        width: 90%;
+      }
+
+      .arrow {
+        font-size: 5rem;
+        width: 7rem;
+      }
+
+      .footer {
+        font-size: 0.9rem;
+      }
+
+      .button {
+        width: 48%;
+      }
+    }
+
+    /* Google button color changed to off-white */
+    .google-button {
+      background-color: #f8f8f8;
+      color: black; /* Changed text color to black */
+      width: 90%; /* Set width same as "Explore" button */
+    }
+
   </style>
 </head>
 <body>
-  <div id="message">
-    The servers are temporarily offline. Please check back soon!
+
+  <div class="welcome-container">
+    <div class="typing-text">Welcome Back</div>
+    <div class="sub-text">to The Apex Classes</div>
+    <div class="arrow" onclick="redirect()">→</div>
   </div>
+
+  <div style="position: relative; width: 90%; margin: 0 auto;">
+    <button class="explore-button" onclick="toggleDropdown()">
+      Explore Semester Curriculum <img src="https://img.icons8.com/material-rounded/24/ffffff/expand-arrow.png" alt="Downward arrow">
+    </button>
+
+    <div class="dropdown-options" id="dropdown">
+      <div class="dropdown-button" onclick="redirectTb5()">Semester-V</div>
+      <div class="dropdown-button" onclick="redirectTb6()">Semester-VI</div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="button" onclick="redirectTb5()">Semester V</button>
+    <button class="button" onclick="redirectTb6()">Semester VI</button>
+  </div>
+
+  <button class="google-button" onclick="redirectGoogle()">
+    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_64dp.png" alt="Google logo">
+    Sign in with Google and Join us
+  </button>
+
+  <div class="footer">
+    <a href="https://example.com/terms">Terms and Conditions</a>
+    <a href="https://example.com/privacy">Privacy Policy</a>
+    <a href="https://example.com/about">About Us</a>
+  </div>
+
+  <script>
+    function redirect() {
+      window.location.href = "https://example.com";
+    }
+
+    function redirectTb5() {
+      window.location.href = "https://example.com/semester5";
+    }
+
+    function redirectTb6() {
+      window.location.href = "https://example.com/semester6";
+    }
+
+    function redirectGoogle() {
+      window.location.href = "https://accounts.google.com/signin";
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+
 </body>
 </html>
