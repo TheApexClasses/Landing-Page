@@ -53,7 +53,7 @@
 
     .button-container {
       display: flex;
-      justify-content: space-between; /* Added more spacing between buttons */
+      justify-content: space-between;
       align-items: center;
       width: 90%;
       margin: 100px auto 20px;
@@ -81,14 +81,14 @@
 
     .google-button, .explore-button {
       padding: 14px 10px;
-      background-color: darkred; /* Restored red color for the Explore button */
+      background-color: darkred;
       color: white;
       font-weight: bold;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       text-align: center;
-      width: 90%; /* Ensuring both buttons have the same width */
+      width: 90%;
       margin: 20px auto;
       display: flex;
       align-items: center;
@@ -150,7 +150,6 @@
       color: red;
     }
 
-    /* Dropdown options for the Explore button */
     .dropdown-options {
       display: none;
       flex-direction: column;
@@ -186,7 +185,6 @@
       border-bottom: none;
     }
 
-    /* Mobile Responsiveness */
     @media screen and (max-width: 768px) {
       .typing-text {
         font-size: 2.8rem;
@@ -220,11 +218,10 @@
       }
     }
 
-    /* Google button color changed to off-white */
     .google-button {
       background-color: #f8f8f8;
-      color: black; /* Changed text color to black */
-      width: 90%; /* Set width same as "Explore" button */
+      color: black;
+      width: 90%;
     }
 
   </style>
@@ -232,7 +229,7 @@
 <body>
 
   <div class="welcome-container">
-    <div class="typing-text">Welcome Back</div>
+    <div class="typing-text">Welcome Back!</div>
     <div class="sub-text">to The Apex Classes</div>
     <div class="arrow" onclick="redirect()">→</div>
   </div>
@@ -249,8 +246,8 @@
   </div>
 
   <div class="button-container">
-    <button class="button" onclick="redirectTb5()">Semester V</button>
-    <button class="button" onclick="redirectTb6()">Semester VI</button>
+    <button class="button" onclick="redirectSemesterV()">Semester V</button>
+    <button class="button" onclick="redirectSemesterVI()">Semester VI</button>
   </div>
 
   <button class="google-button" onclick="redirectGoogle()">
@@ -259,21 +256,29 @@
   </button>
 
   <div class="footer">
-    <a href="#">Terms and Conditions</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">About Us</a>
+    <a href="#" onclick="redirectTerms()">Terms and Conditions</a>
+    <a href="#" onclick="redirectPrivacy()">Privacy Policy</a>
+    <a href="#" onclick="redirectAbout()">About Us</a>
   </div>
 
   <script>
     function redirect() {
-      window.location.href = "https://example.com";
-    }
-
-    function redirectTb5() {
       window.location.href = "https://theapexclasses1.blogspot.com/?m=1";
     }
 
+    function redirectTb5() {
+      window.location.href = "#";
+    }
+
     function redirectTb6() {
+      window.location.href = "#";
+    }
+
+    function redirectSemesterV() {
+      window.location.href = "https://theapexclasses1.blogspot.com/?m=1";
+    }
+
+    function redirectSemesterVI() {
       window.location.href = "#";
     }
 
@@ -281,11 +286,22 @@
       window.location.href = "https://accounts.google.com/signin";
     }
 
+    function redirectTerms() {
+      window.location.href = "#";
+    }
+
+    function redirectPrivacy() {
+      window.location.href = "#";
+    }
+
+    function redirectAbout() {
+      window.location.href = "#";
+    }
+
     function toggleDropdown() {
       const dropdown = document.getElementById('dropdown');
       dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
     }
   </script>
-
 </body>
 </html>
